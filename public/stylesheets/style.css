@@ -1,0 +1,31 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: black;
+}
+
+a {
+  color:burlywood ;
+  text-decoration: none;
+}
+
+.home-link {
+  text-decoration: none;
+  color: black;
+  display: block;
+  width: 100%;
+  max-width: 1080px;
+}
+
+.masthead {
+  display: flex;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+
+@media (max-width: 700px) {
+  .masthead {
+      display: none;
+  }
+}

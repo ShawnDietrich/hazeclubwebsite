@@ -1,0 +1,48 @@
+
+
+<!--Call metadata-->
+<%- include('../partials/metadata.ejs') %>
+
+<!--Call Style sheet-->
+<link rel="stylesheet" href="/stylesheets/HomeStyle.css">   
+
+<!--Header-->
+<body>
+    <header class="site-header">
+        <!--Club Logo-->
+        <div class="masthead" >
+            <div class="home-link" title="HAZE" rel="home">
+                <h1 class="site-title" style="margin-top: 15%;">HAZE</h1>
+                <h2 class="site-decription">Halton Homebrew Club</h2>
+            </div>
+            <img src="./images/haze.png" alt="HAZE Homebrew Club">
+        </div>
+
+        <!--Nav Bar-->
+        <div id="navigation-bar" class="container">
+            <%- include('../partials/nav.ejs') %>
+        </div>
+        
+    </header>
+    <div id="main" class="content-sm">
+        <article class="about-content">
+            <h1 class="entry-title" >Welcome to The HAZE Homebrew Club</h1>
+            <p class="entry-content">Homebrewing is about comunity, sharing, and learning how to make the 
+                best possible beer with backyard, home grown equipment and ingredients.
+                Members in good standing with the club will have access to events, compititions, 
+                and bulk buys.  Club meetings will be held once every three months.  Meetings will
+                allow members to share and learn from other memebers. 
+            </p>
+            <p class="entry-content">
+               <b>Check us out on FaceBook - </b><a class="facebook-link" target="_blank" href="https://www.facebook.com/groups/582872895636875">
+                HAZE FaceBook Group
+               </a>
+               <br>
+               The FaceBook group is the main source for all up todate club information and discussions.  While the group
+               is private it is free to join.
+            </p>
+
+        </article>
+    </div> 
+
+</body>

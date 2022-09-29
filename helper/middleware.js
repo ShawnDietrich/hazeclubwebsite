@@ -17,7 +17,6 @@ module.exports = class MiddleWares {
       firstName: req.session.firstName,
       lastName: req.session.lastName,
       email: req.session.email,
-      userCred: req.session.userCred,
     };
     next();
   };

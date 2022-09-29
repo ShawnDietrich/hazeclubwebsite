@@ -7,7 +7,7 @@ module.exports = class UserDatabase {
         try {
             const query = pgp.helpers.insert(data, null, 'users') + 'RETURNING *'
             //query to create user in database
-            const result = await db.adminQuery(query)
+            const result = await db.query(query)
 
             //check that the insert was complete
             if (result) {
@@ -27,7 +27,7 @@ module.exports = class UserDatabase {
             const queryData = [data.firstName, data.lastName, data.brewery, data.id]
             
             //query to update user
-            const result = await db.adminQuery(query, queryData)
+            const result = await db.query(query, queryData)
             if (result) {
                 return result.rows[0]
             }
@@ -44,7 +44,7 @@ module.exports = class UserDatabase {
             const query = 'SELECT * FROM users WHERE email = $1'
             const values = [email] 
             //query to find user by email
-            const result = await db.userQuery(query, values)
+            const result = await db.query(query, values)
             if (result) {
                 return result.rows[0]
             }
@@ -74,7 +74,7 @@ module.exports = class UserDatabase {
     async returnBrewies() {
         try {
             const query = "select brewery from users where brewery is not null and brewery <> '' "
-            const result = await db.userQuery(query)
+            const result = await db.query(query)
             
             if(result) return result.rows
             return null 
@@ -88,7 +88,7 @@ module.exports = class UserDatabase {
     async returnAllUsers() {
         try{
             const query = "SELECT * from users order by id"
-            const result = await db.userQuery(query)
+            const result = await db.query(query)
             if(result) return result.rows
             return null
         }catch (err) {
@@ -102,7 +102,7 @@ module.exports = class UserDatabase {
         try{
             const query = 'DELETE from users where id = $1'
             const userid = [id]
-            const result = await db.adminQuery(query, userid)
+            const result = await db.query(query, userid)
             if (result) return true
             return false
         }catch (err) {

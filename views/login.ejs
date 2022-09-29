@@ -1,28 +1,9 @@
 
-	<%- include('../partials/metadata.ejs') %>
-	<style>
-		.LoginForm {
-			width: 50%;
-			margin: 5em auto;
-		}
-		.userInput {
-			margin-top: 1em;
-		}
-		#loginBtn {
-			margin-top: 2em;
-		}
-		.loadingContainer{
-                width: 50%;
-                display: flex;
-                margin: 5em auto;
-            }
-        .spinner-border {
-               	margin: 0 1em;
-        	}
-	</style>
-	
+	<link rel="stylesheet" href="/stylesheets/loginStyle.css">
+	<!--Masthead-->
+	<%- include('../partials/masthead.ejs') %>
 	<body>
-		<%- include('../partials/nav.ejs') %>
+		
 		<div id="loginForm" class="LoginForm">
 			<div class="container-md">
 				<h1>Login To View Your Profile</h1>
@@ -34,34 +15,31 @@
 			<form action="/auth/Request" method="POST">
 				<input  class="userInput form-control " type="email" name="email" placeholder="Email" id="emailInput" required>
 				<input  class="userInput form-control " type="password" name="password" placeholder="Password" id="passwordInput" required>
-				<button id="loginBtn" class="btn btn-secondary" type="submit">
+				<button id="loginBtn" class="btn btn-outline-primary" type="submit">
 					Login
 				</button>
 			</form>
 			<hr>
+			<p class="text-xs-center">Don't have an account? <a href="/register">Register</a></p>
 		</div>
 
 			
 		<div id="spinner" hidden="true" class="container loadingContainer">
-			<div class="spinner-border text-warning" role="status">
+			<div class="spinner-border text-primary" role="status">
 				<span class="visually-hidden">Loading...</span>
 			</div>
 			<h2>Please Wait.... Checking User Login</h2>
 		</div>
 
 	<script>
+		
 		//Capture DOM elements
-		const loginForm = document.getElementById('loginForm')
 		const spinner = document.getElementById('spinner')
-		const loginBtn = document.getElementById('loginBtn')
 		if(loginBtn){
 			//Create event listener
 			loginBtn.addEventListener('click',() => {
 				//hide form and show spinner
 				spinner.hidden = false
-			//disable the password input
-			//document.getElementById('passwordInput').disabled = true
-			//document.getElementById('emailInput').disabled = true
 			})
 		}
 	</script>

@@ -1,0 +1,18 @@
+.LoginForm {
+    width: 50%;
+    margin: 5em auto;
+}
+.userInput {
+    margin-top: 1em;
+}
+#loginBtn {
+    margin-top: 2em;
+}
+.loadingContainer{
+        width: 50%;
+        display: flex;
+        margin: 5em auto;
+    }
+.spinner-border {
+           margin: 0 1em;
+    }

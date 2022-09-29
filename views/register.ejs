@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="/stylesheets/loginStyle.css">
+<%- include('../partials/masthead.ejs') %>
+<body>
+    <div class="container-md" style="margin-top: 3em;">
+        <div class="container-md text-center">
+            <h1>Annual Membership</h1>
+            <p>Membership is $10 per year due at signup and renews the first meeting of each year</p>
+        </div>
+        
+        <form method="post" action="/register/adduser" style="max-width: 950px; margin: 0 auto;">
+
+            <div class="row gx-2">
+                <div class="col">
+                    <label for="firstName" class="form-label">First Name*</label>
+                    <input id="firstName" class="form-control mb-3" type="text" name="firstName"  required>
+                
+                    <label for="lastName" class="form-label">Last Name*</label>
+                    <input id="lastName" class="form-control mb-3" type="text" name="lastName" required>
+                </div>
+            </div>
+
+           <div class="row gx-2">
+                <div class="col">
+                    <label for="email" class="form-label">Email Address*</label>
+                    <input id="email" class="form-control mb-3" type="email" name="email" required>
+                    
+                    <label for="password" class="form-label">Password (Must be at least 8 characters)</label>
+                    <input class="form-control mb-3" type="password" name="password" minlength="8" required>
+                    
+                    <button type="submit" class="btn btn-outline-primary mb-2">
+                        Submit Entry
+                    </button>
+                    <p>The submit button redirects to a secure payment page</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>

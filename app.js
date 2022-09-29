@@ -1,6 +1,6 @@
 var createError = require('http-errors');
-var express = require('express');
-const session = require('express-session')
+const express = require('express');
+const session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -19,10 +19,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
+//don't convert body to json if url is destended for a webhook
+app.use((req, res, next) => {
+  req.originalUrl === '/register/payment' ? next() : express.json()(req, res, next);
+})
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+
 
 //express session
 app.use(
@@ -55,15 +62,18 @@ app.use((error, request, response, next) => {
 //require routes
 //var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth')
-
-
+var registerRouter = require('./routes/register')
+var userRouter = require('./routes/users')
 //React routes - not used
 
 //Express Routes
 app.use('/auth', authRouter);
+app.use('/register', registerRouter);
+
+app.use('/users', userRouter);
 
 //home page render
-app.get('/', (req, res)=> {
+app.get('/', (req, res) => {
   res.status(200).render('home');
 })
 

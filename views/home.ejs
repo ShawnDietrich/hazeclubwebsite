@@ -1,29 +1,10 @@
 
-
-<!--Call metadata-->
-<%- include('../partials/metadata.ejs') %>
-
 <!--Call Style sheet-->
 <link rel="stylesheet" href="/stylesheets/HomeStyle.css">   
 
 <!--Header-->
+<%- include('../partials/masthead.ejs') %>
 <body>
-    <header class="site-header">
-        <!--Club Logo-->
-        <div class="masthead" >
-            <div class="home-link" title="HAZE" rel="home">
-                <h1 class="site-title" style="margin-top: 15%;">HAZE</h1>
-                <h2 class="site-decription">Halton Homebrew Club</h2>
-            </div>
-            <img src="./images/haze.png" alt="HAZE Homebrew Club">
-        </div>
-
-        <!--Nav Bar-->
-        <div id="navigation-bar" class="container">
-            <%- include('../partials/nav.ejs') %>
-        </div>
-        
-    </header>
     <div id="main" class="content-sm">
         <article class="about-content">
             <h1 class="entry-title" >Welcome to The HAZE Homebrew Club</h1>
@@ -44,5 +25,4 @@
 
         </article>
     </div> 
-
 </body>

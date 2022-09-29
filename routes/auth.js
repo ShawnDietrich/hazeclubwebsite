@@ -29,14 +29,11 @@ router.post('/Request', async function (req, res) {
         const passwordCheck = await bcrypt.compare(password, result.password)
         if (passwordCheck) {
           console.log("Password Check Complete")
-          console.log(`user cred ${result.userCred}`)
           req.session.loggedin = true
           req.session.email = result.email
           req.session.firstName = result.firstName
           req.session.lastName = result.lastName
-          req.session.userCred = result.userCred
-          req.session.brewery = null
-          res.status(200).redirect(`/${result.userCred}`)
+          res.status(200).redirect(`/users`)
         } else {
           console.log('Incorrect Password')
           res.status(400).render('login', { loginFailed: true })

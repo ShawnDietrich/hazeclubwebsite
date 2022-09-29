@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 
 //stripe imports
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
-const endpointSecret = 'whsec_2f88b9d4a4fa024f9ad50b188fd2887d5ccbae1a88d8316dc3bb1ddb888409cf'
+const endpointSecret = process.env.ENDPOINT_SECRET
 const baseURL = 'http://localhost:3000'
 
 router.get('/', (req, res)=> {

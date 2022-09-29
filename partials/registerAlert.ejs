@@ -1,0 +1,6 @@
+<% if(alerts.emailExists) { %>
+    <div class="alert alert-danger alert-dismissible fade show text-center" style="max-width: 500px; margin: 0 auto;" role="alert" id="noAdd" onshow="setTimeout(hideAlert, 3000)">
+        Email Already Exists
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+    </div>
+<% } %>

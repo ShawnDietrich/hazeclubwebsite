@@ -46,17 +46,6 @@ app.use(
 );
 
 
-//CSRF middleware
-app.use((error, request, response, next) => {
-  console.log(error)
-  if (error.code === "EBADCSRFTOKEN") {
-    console.log(req.body)
-    response.status(403);
-    response.send("The CSRF token is invalid");
-  } else {
-    next();
-  }
-});
 
 
 //require routes
@@ -69,7 +58,6 @@ var userRouter = require('./routes/users')
 //Express Routes
 app.use('/auth', authRouter);
 app.use('/register', registerRouter);
-
 app.use('/users', userRouter);
 
 //home page render

@@ -23,13 +23,14 @@ module.exports = class UserDatabase {
     async update(data) {
         try {
             //set format for query
-            const query = 'UPDATE users SET "firstName" = $1, "lastName" = $2, brewery = $3 WHERE id = $4'
-            const queryData = [data.firstName, data.lastName, data.brewery, data.id]
+            const query = 'UPDATE users SET "firstName" = $1, "lastName" = $2, password = $3 WHERE id = $4'
+            const queryData = [data.firstName, data.lastName, data.password, data.id]
             
             //query to update user
             const result = await db.query(query, queryData)
             if (result) {
-                return result.rows[0]
+                console.log('update complete')
+                return true
             }
             return null
         } catch (err) {

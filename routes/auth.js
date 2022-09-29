@@ -4,10 +4,12 @@ const bcrypt = require('bcryptjs')
 const dbInstance = require('../database/users')
 const UserInst = new dbInstance()
 
+
+
 /* GET login page */
 router.get('/login', function (req, res, next) {
   if(req.session.loggedin) {
-    res.redirect(`/${req.session.userCred}`)
+    res.redirect(`/users`)
   }else {
     res.render('login', { loginFailed: false });
   }

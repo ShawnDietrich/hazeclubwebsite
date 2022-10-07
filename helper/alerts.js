@@ -32,4 +32,11 @@ var userAlert = {
   },
 };
 
-module.exports = { regAlert, userAlert };
+var eventsAlert = {
+  init: {
+
+  },
+
+}
+
+module.exports = { regAlert, userAlert, eventsAlert };

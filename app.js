@@ -53,12 +53,14 @@ app.use(
 var authRouter = require('./routes/auth')
 var registerRouter = require('./routes/register')
 var userRouter = require('./routes/users')
+var eventsRouter = require('./routes/events')
 //React routes - not used
 
 //Express Routes
 app.use('/auth', authRouter);
 app.use('/register', registerRouter);
 app.use('/users', userRouter);
+app.use('/events', eventsRouter);
 
 //home page render
 app.get('/', (req, res) => {

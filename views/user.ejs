@@ -1,59 +1,49 @@
 <%- include('../partials/masthead.ejs') %>
-
+<%- include('../partials/userInformation.ejs') %>
 <body>
-    <!--User Information-->
-    <div class="container" style="margin: 2em auto; max-width: 700px;">
-      <div class="row g-3">
-        <div class="col">
-          <p>Welcome <b><%=profile.firstName%> <%=profile.lastName%></b>  </p>
-        </div>
-        <div class="col">
-            <form method="post" action="/auth/logout" style="margin-left: 80%;">
-                <button type="submit" class="btn btn-secondary" onclick="clearStorage()">Logout</button>
-            </form> 
+  <div class="container" style="margin: 2em auto; max-width: 700px;">
+  <div class="row g-3">
+          <h2>User Information</h2>
+          <%- include('../partials/userAlerts.ejs') %>
+          <!--Change user information-->
+          <form method="post" action="/users/update">
+            <!--CSRF Inputs-->
+            <input hidden name="_csrf" value="<%= csrfToken%>">
+            <div class="row gx-2">
+              <div class="col">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input id="firstName" class="form-control mb-3" type="text" name="firstName" value="<%= profile.firstName%>" >
+              
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input id="lastName" class="form-control mb-3" type="text" name="lastName" value="<%= profile.lastName%>">
+              </div>
+          </div>
+
+        <div class="row gx-2">
+              <div class="col">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input id="email" class="form-control mb-3" type="email" name="email" value="<%= profile.email %>" disabled >
+                  <!--Confirm old password-->
+                  <label for="password" class="form-label">Confirm Old Password</label>
+                  <input class="form-control mb-3" type="password" name="oldPassword" minlength="8" >
+                  <!--New Password-->
+                  <label for="password" class="form-label">New Password (Must be at least 8 characters) </label>
+                  <input id="pass1" class="form-control mb-3" type="password" name="password" minlength="8" >
+                  <!--Confirm New Password-->
+                  <label for="password" class="form-label">Confirm New Password</label>
+                  <input id="pass2" class="form-control mb-3" type="password" minlength="8" >
+                  
+                  <button id="submitBtn" type='button' onclick="checkPassword()" class="btn btn-outline-primary mb-2">
+                      Submit Entry
+                  </button>
+              </div>
+          </div>
+          </form>
         </div>
       </div>
-      <hr>
-
-      <div class="row g-3">
-        <h2>User Information</h2>
-        <%- include('../partials/userAlerts.ejs') %>
-        <!--Change user information-->
-        <form method="post" action="/users/update">
-          <!--CSRF Inputs-->
-          <input hidden name="_csrf" value="<%= csrfToken%>">
-          <div class="row gx-2">
-            <div class="col">
-                <label for="firstName" class="form-label">First Name</label>
-                <input id="firstName" class="form-control mb-3" type="text" name="firstName" value="<%= profile.firstName%>" >
-            
-                <label for="lastName" class="form-label">Last Name</label>
-                <input id="lastName" class="form-control mb-3" type="text" name="lastName" value="<%= profile.lastName%>">
-            </div>
-        </div>
-
-       <div class="row gx-2">
-            <div class="col">
-                <label for="email" class="form-label">Email Address</label>
-                <input id="email" class="form-control mb-3" type="email" name="email" value="<%= profile.email %>" disabled >
-                <!--Confirm old password-->
-                <label for="password" class="form-label">Confirm Old Password</label>
-                <input class="form-control mb-3" type="password" name="oldPassword" minlength="8" >
-                <!--New Password-->
-                <label for="password" class="form-label">New Password (Must be at least 8 characters) </label>
-                <input id="pass1" class="form-control mb-3" type="password" name="password" minlength="8" >
-                <!--Confirm New Password-->
-                <label for="password" class="form-label">Confirm New Password</label>
-                <input id="pass2" class="form-control mb-3" type="password" minlength="8" >
-                
-                <button id="submitBtn" type='button' onclick="checkPassword()" class="btn btn-outline-primary mb-2">
-                    Submit Entry
-                </button>
-            </div>
-        </div>
-        </form>
-      </div>
-    </div>
+  </div>
+    
+      
     <script>
       const clearStorage = () => {
         localStorage.clear();

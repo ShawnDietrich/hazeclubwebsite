@@ -1,0 +1,14 @@
+<!--User Information-->
+<div class="container" style="margin: 2em auto; max-width: 700px;">
+    <div class="row g-3">
+      <div class="col">
+        <h4>Welcome <b><%=profile.firstName%> <%=profile.lastName%></b>  </h4>
+      </div>
+      <div class="col">
+          <form method="post" action="/auth/logout" style="margin-left: 80%;">
+              <button type="submit" class="btn btn-secondary" onclick="clearStorage()">Logout</button>
+          </form> 
+      </div>
+    </div>
+    <hr>
+</div>

@@ -8,12 +8,12 @@ const UserInst = new dbInstance()
 
 /* GET login page */
 router.get('/login', function (req, res, next) {
-  if(req.session.loggedin) {
+  if (req.session.loggedin) {
     res.redirect(`/users`)
-  }else {
+  } else {
     res.render('login', { loginFailed: false });
   }
-  
+
 });
 
 //Login User
@@ -31,10 +31,9 @@ router.post('/Request', async function (req, res) {
         const passwordCheck = await bcrypt.compare(password, result.password)
         if (passwordCheck) {
           console.log("Password Check Complete")
+          console.log(`User ${result.firstName} ${result.lastName} Logged In`)
+          req.session.user = result
           req.session.loggedin = true
-          req.session.email = result.email
-          req.session.firstName = result.firstName
-          req.session.lastName = result.lastName
           res.status(200).redirect(`/users`)
         } else {
           console.log('Incorrect Password')

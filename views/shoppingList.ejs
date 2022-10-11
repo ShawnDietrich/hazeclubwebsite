@@ -1,0 +1,68 @@
+<%- include('../partials/masthead.ejs') %>
+<%- include('../partials/userInformation.ejs') %>
+
+<!--Shopping list selection drop down-->
+<div class="container" style="margin: 0 auto;">
+    <div class="dropdown">
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-outline-secondary mb-5" href="/shoppingList/Create">Create Shopping List</a>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-secondary dropdown-toggle mb-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Shopping List
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <% if(shoppingList.length > 1) {%>
+                        <% shoppingList.forEach((list) => {%>
+                        <li>
+                            <button type="button" class="btn dropdown-item" style="margin-left: auto;"><%= list.listName %></button>
+                        </li>
+                        <% }) %>
+                    <% }else {%>
+                        <li>
+                            <p class="dropdown-item">No Shopping Lists Exist</p>
+                        </li>
+                    <% } %>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<!--Shopping List Table-->
+<div class="container">
+        <div id="list-table" class="card text-dark bg-light mb-5">
+        <div class="card-header">
+            <table class="table table-hover text-center" data-toggle="table">
+                <thead>
+                <tr>
+                    <th data-field="item_name" data-sortable="true">Item Name</th>
+                    <th data-field="item_desc" data-sortable="true">Item Description</th>
+                    <th data-field="price" data-sortable="true">Price</th>
+                    <th data-field="selected" data-sortable="true">Selected</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <% shoppingList.forEach((item) => {%>
+                    <tr>
+                    <td><%= item.item_name %></td>
+                    <td><%= item.item_desc %></td>
+                    <td><%= item.price %></td>
+                    <td><%= item.selected %></td>
+                    <form action="/shoppingList/removeEntry" method="post">
+                        <td><button type="submit" class="btn">
+                            <input type="hidden" name="index" value="<%= item.id %>"/>
+                            <input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
+                            <img src="/images/x-circle-fill.svg"/>
+                        </button></td>
+                    </form>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -88,7 +88,7 @@ router.post("/payment", express.raw({ type: "*/*" }), async (req, res) => {
 
           //Add user
           const result = await new (require("../database/users"))().create(
-            userData
+            userData, 'users'
           );
           if (result) {
             console.log("user added");

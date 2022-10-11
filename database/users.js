@@ -3,9 +3,9 @@ const db = require('./index')
 const pgp = require('pg-promise')()
 
 module.exports = class UserDatabase {
-    async create(data) {
+    async create(data, table) {
         try {
-            const query = pgp.helpers.insert(data, null, 'users') + 'RETURNING *'
+            const query = pgp.helpers.insert(data, null, table) + 'RETURNING *'
             //query to create user in database
             const result = await db.query(query)
 
@@ -56,13 +56,13 @@ module.exports = class UserDatabase {
         }
     }
 
-    async findById(userid) {
+    async findById(userid, table) {
         try {
-            const query = 'SELECT * FROM users WHERE id = $1'
+            const query = `SELECT * FROM ${table} WHERE id = $1`
             const id = [userid]
             const result = await db.query(query, id)
             if (result) {
-                return result.rows[0]
+                return result.rows
             }
             return null
         } catch (err) {
@@ -71,31 +71,18 @@ module.exports = class UserDatabase {
         }
     }
 
-    //Get the list of brewies
-    async returnBrewies() {
-        try {
-            const query = "select brewery from users where brewery is not null and brewery <> '' "
-            const result = await db.query(query)
-            
-            if(result) return result.rows
-            return null 
-        } catch (err) {
-            console.log(err)
-            throw new Error(err)
-        }
-    }
-
-    //Get list of all users
-    async returnAllUsers() {
+    async findByName(name, table) {
         try{
-            const query = "SELECT * from users order by id"
-            const result = await db.query(query)
-            if(result) return result.rows
+            const query = `SELECT * From ${table} WHERE list_name = $1`
+            const data = [name]
+            const result = await db.query(query, data)
+            if(result) {
+                return result.rows
+            }else 
             return null
         }catch (err) {
             console.log(err)
             throw new Error(err)
-            
         }
     }
 

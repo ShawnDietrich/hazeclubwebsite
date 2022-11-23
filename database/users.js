@@ -58,7 +58,7 @@ module.exports = class UserDatabase {
 
     async findById(userid, table) {
         try {
-            const query = `SELECT * FROM ${table} WHERE id = $1`
+            const query = `SELECT * FROM ${table} WHERE user_id = $1`
             const id = [userid]
             const result = await db.query(query, id)
             if (result) {

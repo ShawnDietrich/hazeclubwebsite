@@ -1,31 +1,33 @@
 <%- include('../partials/masthead.ejs') %>
 <%- include('../partials/userInformation.ejs') %>
+<body>
+
 
 <!--Shopping list selection drop down-->
-<div class="container" style="margin: 0 auto;">
+<div class="container " style="margin: 0 auto;">
     <div class="dropdown">
         <div class="row">
-            <div class="col">
-                <a class="btn btn-outline-secondary mb-5" href="/shoppingList/Create">Create Shopping List</a>
-            </div>
             <div class="col">
                 <button class="btn btn-outline-secondary dropdown-toggle mb-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Select Shopping List
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark">
-                    <% if(shoppingList.length > 1) {%>
-                        <% shoppingList.forEach((list) => {%>
-                        <li>
-                            <button type="button" class="btn dropdown-item" style="margin-left: auto;"><%= list.listName %></button>
-                        </li>
+                    <% if(listNames.length > 0) {%>
+                        <% listNames.forEach((item) => {%>
+                        <form method="post" action="/shoppingList/list">
+                            <input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
+                            <li>
+                                <button type="submit" class="btn dropdown-item" style="margin-left: auto;" name="listName" value="<%= item %>"><%= item %></button>
+                            </li>
+                        </form>
                         <% }) %>
                     <% }else {%>
                         <li>
                             <p class="dropdown-item">No Shopping Lists Exist</p>
                         </li>
                     <% } %>
-                    
                 </ul>
+                <a class="btn btn-outline-secondary mb-5" href="/shoppingList/Create">Create Shopping List</a>
             </div>
         </div>
         
@@ -39,10 +41,11 @@
             <table class="table table-hover text-center" data-toggle="table">
                 <thead>
                 <tr>
-                    <th data-field="item_name" data-sortable="true">Item Name</th>
-                    <th data-field="item_desc" data-sortable="true">Item Description</th>
-                    <th data-field="price" data-sortable="true">Price</th>
-                    <th data-field="selected" data-sortable="true">Selected</th>
+                    <th scope="col" data-sortable="true">Item Name</th>
+                    <th scope="col" data-sortable="true">Item Description</th>
+                    <th scope="col" data-sortable="true">Price</th>
+                    <th scope="col" data-sortable="true">Selected</th>
+                    <th scope="col" >Delete Item</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,7 +54,7 @@
                     <td><%= item.item_name %></td>
                     <td><%= item.item_desc %></td>
                     <td><%= item.price %></td>
-                    <td><%= item.selected %></td>
+                    <td><img src="/images/cart-check-fill.svg"></td>
                     <form action="/shoppingList/removeEntry" method="post">
                         <td><button type="submit" class="btn">
                             <input type="hidden" name="index" value="<%= item.id %>"/>
@@ -66,3 +69,7 @@
         </div>
     </div>
 </div>
+
+
+
+</body>

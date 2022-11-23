@@ -9,31 +9,59 @@ const db = new DB()
 
 //check all routes for logged in
 router.all('/*', middleware.csrfMiddleware, middleware.profileMiddleware, (req, res, next) => {
-    req.session.loggedin ? next() : res.status(400).redirect('/auth/login')
-} )
+    req.session.loggedin ? next() : res.status(401).render('NotLoggedIn')
+})
 
+//Main page load
 router.get('/', async (req, res) => {
     const csrfToken = req.csrfToken()
     //get shopping lists for user
     console.log("Searching for shopping list")
     const result = await db.findById(req.session.user.id, '"shoppingList"')
+
+    //parse out list names
+    if (result) {
+        var listNames = []
+        result.map(item => {
+            if (listNames.indexOf(item.list_name) === -1) {
+                listNames.push(item.list_name)
+            }
+        })
+    }
+
+    //initialze shopping list
+    if (!req.session.shoppingList) {
+        req.session.shoppingList = [];
+    }
+
     res.render('shoppingList', {
         csrfToken: csrfToken,
         profile: req.profile,
-        shoppingList: result
+        listNames: listNames,
+        shoppingList: req.session.shoppingList
     })
+})
+
+router.post('/list', async(req, res) => {
+    const { listName } = req.body
+    console.log("Gathering Selected Shopping List Data")
+    const result = await db.findByName(listName, '"shoppingList"')
+    if(result) {
+        req.session.shoppingList = result
+    }
+    res.status(200).redirect('/shoppingList')
 })
 
 router.get('/create', (req, res) => {
     //request csrf token
     const csrfToken = req.csrfToken()
-    
+
     //initilize shopping list
-    if(!req.session.shoppingList){
+    if (!req.session.shoppingList) {
         req.session.shoppingList = initShoppingList()
     }
 
-    console.log(req.session.shoppingList)
+    //console.log(req.session.shoppingList)
     //render view
     res.render('shoppingListAdd', {
         csrfToken: csrfToken,
@@ -42,14 +70,14 @@ router.get('/create', (req, res) => {
     })
 })
 
-router.post('/create', async(req, res)=> {
+router.post('/create', async (req, res) => {
     var list = req.body
     delete list._csrf
     //add user id to object
-    list = {...list, user_id: req.profile.id}
+    list = { ...list, user_id: req.profile.id }
     //console.log(list)
     const result = await db.create(list, "shoppingList")
-    if(result) {
+    if (result) {
         const shoppingList = await db.findByName(list.list_name, '"shoppingList"')
         req.session.shoppingList = shoppingList
         res.status(200).redirect('/shoppingList/create')
@@ -60,7 +88,7 @@ router.post('/create', async(req, res)=> {
 
 function initShoppingList() {
     return {
-        list_name: "", 
+        list_name: "",
         item_name: "",
         item_desc: "",
         price: 0,

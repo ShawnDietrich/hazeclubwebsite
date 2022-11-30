@@ -83,7 +83,7 @@ router.post('/create', async (req, res) => {
     delete list._csrf
     //add user id to object
     list = { ...list, user_id: req.profile.id }
-    //console.log(list)
+    console.log(list)
     const result = await db.create(list, "shoppingList")
     if (result) {
         const shoppingList = await db.findByName(list.list_name, '"shoppingList"')

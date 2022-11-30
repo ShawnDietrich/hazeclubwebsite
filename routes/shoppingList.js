@@ -33,20 +33,27 @@ router.get('/', async (req, res) => {
     if (!req.session.shoppingList) {
         req.session.shoppingList = [];
     }
+    //initialze shopping list name
+    if (!req.session.selectedList) {
+        req.session.selectedList = "Select Shopping List"
+    }
 
     res.render('shoppingList', {
         csrfToken: csrfToken,
         profile: req.profile,
         listNames: listNames,
-        shoppingList: req.session.shoppingList
+        shoppingList: req.session.shoppingList,
+        selectedList: req.session.selectedList
+
     })
 })
 
-router.post('/list', async(req, res) => {
+router.post('/list', async (req, res) => {
     const { listName } = req.body
-    console.log("Gathering Selected Shopping List Data")
-    const result = await db.findByName(listName, '"shoppingList"')
-    if(result) {
+    req.session.selectedList = listName;
+    console.log("Gathering Selected Shopping List Data");
+    const result = await UpdateList(listName)
+    if (result) {
         req.session.shoppingList = result
     }
     res.status(200).redirect('/shoppingList')
@@ -66,7 +73,8 @@ router.get('/create', (req, res) => {
     res.render('shoppingListAdd', {
         csrfToken: csrfToken,
         profile: req.profile,
-        shoppingList: req.session.shoppingList
+        shoppingList: req.session.shoppingList,
+        itemNum: 1,
     })
 })
 
@@ -84,6 +92,38 @@ router.post('/create', async (req, res) => {
     }
 })
 
+router.post('/removeEntry', async (req, res) => {
+    const listID = req.body.index;
+    const result = await db.deleteItem(listID, '"shoppingList"');
+    if (result) {
+        const newList = await UpdateList(req.session.selectedList)
+        if (newList) {
+            req.session.shoppingList = newList;
+            res.status(200).redirect('/shoppingList');
+        }
+    }
+})
+
+router.post('/removeList', async (req, res) => {
+    const listName = req.body.selectedList;
+    const result = await db.deleteByName(listName, '"shoppingList"');
+    if (result) {
+        req.session.selectedList = '';
+        req.session.shoppingList = [];
+        res.status(200).redirect('/shoppingList');
+    }
+})
+
+
+async function UpdateList(listName) {
+    const emptyList = initShoppingList;
+    const result = await db.findByName(listName, '"shoppingList"');
+    if (result) {
+        return result;
+    } else {
+        return emptyList;
+    }
+}
 
 
 function initShoppingList() {

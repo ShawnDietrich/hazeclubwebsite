@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col">
                 <button class="btn btn-outline-secondary dropdown-toggle mb-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Shopping List
+                    <%= selectedList %>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark">
                     <% if(listNames.length > 0) {%>
@@ -28,6 +28,14 @@
                     <% } %>
                 </ul>
                 <a class="btn btn-outline-secondary mb-5" href="/shoppingList/Create">Create Shopping List</a>
+            </div>
+            <div class="col">
+                <form method="post" action="/shoppingList/RemoveList">
+                    <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                    <input type="hidden" name="selectedList" value="<%=selectedList%>">
+                    <button class="btn btn-outline-danger">Remove List</button>
+                </form>
+                
             </div>
         </div>
         
@@ -55,13 +63,17 @@
                     <td><%= item.item_desc %></td>
                     <td><%= item.price %></td>
                     <td><img src="/images/cart-check-fill.svg"></td>
-                    <form action="/shoppingList/removeEntry" method="post">
-                        <td><button type="submit" class="btn">
+                    
+                        <td>
+                            <form action="/shoppingList/removeEntry" method="post">
+                            <button type="submit" class="btn">
                             <input type="hidden" name="index" value="<%= item.id %>"/>
                             <input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
                             <img src="/images/x-circle-fill.svg"/>
-                        </button></td>
+                            </button>
                     </form>
+                    </td>
+                    
                     </tr>
                     <% }) %>
                 </tbody>

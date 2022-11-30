@@ -6,49 +6,60 @@
     <form method="post" action="/shoppingList/create" style="max-width: 950px; margin: 0 auto;">
         <input hidden name="_csrf" value="<%=csrfToken%>"/>
         <% if(!shoppingList.list_name) {%>
-            <input class="form-control" type="text" name='list_name' placeholder="Enter Shopping List Name" required>
+            <div class="row">
+                <div class="col">
+                    <input class="form-control mb-3" type="text" name='list_name' placeholder="Enter Shopping List Name" style="max-width: 30em;" required>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-outline-dark">Submit List</button>
+                </div>
+            </div>
+            
         <% }else {%>
-            <input class="form-control" type="text" name='list_name' value="<%= shoppingList.list_name %>" placeholder="Enter Shopping List Name">
+            <input class="form-control mb-3" type="text" name='list_name' value="<%= shoppingList.list_name %>" placeholder="Enter Shopping List Name">
         <% } %>
         
-        <table class="table text-center">
+        <table id="listTable" class="table text-center" data-toggle="table">
             <thead>
                 <tr>
-                    <th>Item Name</th>
-                    <th>Item Description</th>
-                    <th>Amount</th>
-                    <th>Unit</th>
-                    <th>Price</th>
+                    <th data-sortable="true">Item Name</th>
+                    <th data-sortable="true">Item Description</th>
+                    <th data-sortable="true">Amount</th>
+                    <th data-sortable="true">Unit</th>
+                    <th data-sortable="true">Price</th>
                 </tr>
             </thead>
-            <% if(shoppingList.listName) {%>
-                <tbody>
-                    <% shoppingList.forEach((item) => {%>
-                        <td><%= item.itemName %></td>
-                        <td><%= item.itemDesc %></td>
-                        <td><%= item.amount %></td>
-                        <td><%= item.unit %></td>
-                        <td><%= item.price %></td>
-
-                    <% }) %>
-                </tbody>
-                
-            <% } %>
             <tbody>
-                <td><input class="form-control " type="text" name="item_name"></td>
-                <td><input class="form-control " type="text" name="item_desc"></td>
-                <td><input class="form-control" type="number" name="amount"></td>
-                <td><input class="form-control" type="text" name="unit"></td>
-                <td><div class="input-group">
+
+                    <td><input  class="form-control " type="text" name="item_name"></td>
+                    <td><input  class="form-control " type="text" name="item_desc"></td>
+                    <td><input  class="form-control" type="number" name="amount"></td>
+                    <td><input  class="form-control" type="text" name="unit"></td>
+                    <td><div class="input-group">
                     <span class="input-group-text">$</span>
-                    <input class="form-control " type="number" name="price">
-                    
-                </div>
-                    
+                    <input  class="form-control " type="number" name="price">
+                    </div>
                 </td>
-                <td><button class="btn" type="submit"><img src="/images/plus-square-fill.svg" width="32px"/></button></td>
+                <td><button class="btn" type="button"><img src="/images/plus-square-fill.svg" width="32px" onclick="AddRow()"/></button></td>
             </tbody>
         </table>
         
     </form>
 </div>
+
+<script>
+    function AddRow() {
+        const rowData = '<td><input  class="form-control " type="text" name="item_name"></td>' +
+                    '<td><input  class="form-control " type="text" name="item_desc"></td>' +
+                    '<td><input  class="form-control" type="number" name="amount"></td> '+
+                    '<td><input  class="form-control" type="text" name="unit"></td> ' +
+                    '<td><div class="input-group"> ' +
+                    '<span class="input-group-text">$</span> ' +
+                    '<input  class="form-control " type="number" name="price">' +
+                    '<td><button class="btn" type="button"><img src="/images/plus-square-fill.svg" width="32px" onclick="AddRow()"/></button></td>'
+       var table = document.getElementById("listTable").getElementsByTagName('tbody')[0];
+       var newRow = table.insertRow(table.rows.length);
+       newRow.innerHTML = rowData;
+
+    }
+</script>
